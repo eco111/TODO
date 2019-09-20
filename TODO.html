@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<link rel="stylesheet" href="todo.css">
+        <title>Page TODO</title>
+            <script src ="https://code.jquery.com/jquery-3.1.1.js"> </script>
+                <script src = "todo.js" async> </script>
+    </head>
+    <body>
+        <!-- <div id= "start">Start</div> -->
+        <!-- Nav -->
+        <nav class="navbar navbar-inverse">
+            <div class='container'>
+               <span class="navbar-brand">Todo</span>
+            </div>
+        </nav>
+
+        <!-- Main -->
+        <div class="main container rounded p-3 mt-3">
+            <form class="form-group mb-5">
+                <input type="text" id="input" class="form-control mb-2" placeholder="What do you want to do?">
+                <label for="#input"><em>Press 
+                    <code>
+                        <button id="submit" type ="submit_button" class="btn btn-link float-right"> 
+                            <strong>Enter</strong>
+                        </button>
+                    </code> to save</em></label>
+                
+            </form>
+        <div class="cards">
+            <div class="card">
+                <div class="card-block">
+                    <p class="card-title lead">Learn React</p>
+                <button id="delete" type="button" class="btn btn-link float-right">❌</button>
+                <button id="done" type="button" class="btn btn-link float-right mr-3">✔️</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-block">
+                        <p class="card-title lead">Write HTML in my JavaScript</p>
+                    <button id="delete" type="button" class="btn btn-link float-right">❌</button>
+                    <button id="done" type="button" class="btn btn-link float-right mr-3">✔️</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body> 
+<footer class="footer">
+  <div class="container">
+      <a href="" onclick="localStorage.removeItem('cards')">🔴 Reset</a>
+  </div>
+</footer>    
+</html>    

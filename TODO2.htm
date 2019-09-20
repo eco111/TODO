@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file:///Users/evgenyduz/Documents/hello/TODO/TODO.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	<link rel="stylesheet" href="file:///Users/evgenyduz/Documents/hello/TODO/todo.css">
+        <title>Page TODO</title>
+            <script src="./TODO_files/jquery-3.1.1.js"> </script>
+                <script src="file:///Users/evgenyduz/Documents/hello/TODO/todo.js" async=""> </script>
+    </head>
+    <body>
+        <!-- <div id= "start">Start</div> -->
+        <!-- Nav -->
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+               <span class="navbar-brand">Todo</span>
+            </div>
+        </nav>
+
+        <!-- Main -->
+        <div class="main container rounded p-3 mt-3">
+            <form class="form-group mb-5">
+                <input type="text" id="input" class="form-control mb-2" placeholder="What do you want to do?">
+                <label for="#input"><em>Press <code>Enter</code> to save</em></label>
+            </form>
+        <div class="cards">
+            <div class="card">
+                <div class="card-block">
+                <button id="delete" type="button" class="btn btn-link float-right">❌</button>
+                <button id="done" type="button" class="btn btn-link float-right mr-3">✔️</button>
+                    <p class="card-title lead">Learn React</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-block">
+                    <button id="delete" type="button" class="btn btn-link float-right">❌</button>
+                    <button id="done" type="button" class="btn btn-link float-right mr-3">✔️</button>
+                        <p class="card-title lead">Write HTML in my JavaScript</p>
+                </div>
+            </div>
+        
+    <div class="card">
+      <div class="card-block">
+        <button id="done" type="button" class="btn btn-link float-right">❌</button>
+        <button id="delete" type="button" class="btn btn-link float-right mr-3">✔️</button>
+        <p class="card-title lead">Learn HTML CSS</p>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-block">
+        <button id="done" type="button" class="btn btn-link float-right">❌</button>
+        <button id="delete" type="button" class="btn btn-link float-right mr-3">✔️</button>
+        <p class="card-title lead">Make Todo on JQuery</p>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-block">
+        <button id="done" type="button" class="btn btn-link float-right">❌</button>
+        <button id="delete" type="button" class="btn btn-link float-right mr-3">✔️</button>
+        <p class="card-title lead">New Task</p>
+      </div>
+    </div>
+  </div>
+        </div>
+     
+<footer class="footer">
+  <div class="container">
+      <a href="file:///Users/evgenyduz/Documents/hello/TODO/TODO.html" onclick="localStorage.removeItem(&#39;cards&#39;)">🔴 Reset</a>
+  </div>
+</footer>    
+    </body></html>

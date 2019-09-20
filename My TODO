@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page TODO</title>
+            <script src ="https://code.jquery.com/jquery-3.1.1.js"></script>
+    </head>
+    <body>
+        <div id= "start">Start</div>
+    </body>     
+</html>    
