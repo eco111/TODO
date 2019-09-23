@@ -21,5 +21,7 @@ https://learn.javascript.ru/operators
 CSS
 http://htmlbook.ru/samcss/vvedenie-v-css
 
-Agreement
+Agreement code
 https://docs.google.com/document/d/1I3KXTNc2Z7DyUDm09WW1OaFn9X9mwUbFXQHN_yHBrkg/edit
+Clean code JS
+https://github.com/ryanmcdermott/clean-code-javascript#objects-and-data-structures
