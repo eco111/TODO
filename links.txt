@@ -1,0 +1,25 @@
+// Unix команды
+
+
+Склеивать комиты
+https://htmlacademy.ru/blog/useful/git/how-to-squash-commits-and-why-it-is-needed
+
+TODO Bootstrap
+https://worldwebinfo.ru/code-snippets/bootstrap/spisok-todo-s-ispolzovaniem-jquery-i-bootstrap-4.html
+
+JavaScript
+https://github.com/ryanmcdermott/clean-code-javascript
+https://habr.com/ru/post/243403/
+https://habr.com/ru/post/313526/
+HTML book
+http://htmlbook.ru/content/ssylki-vo-freymakh
+
+Learn Javascript
+https://learn.javascript.ru/external-script
+https://learn.javascript.ru/operators
+
+CSS
+http://htmlbook.ru/samcss/vvedenie-v-css
+
+Agreement
+https://docs.google.com/document/d/1I3KXTNc2Z7DyUDm09WW1OaFn9X9mwUbFXQHN_yHBrkg/edit
