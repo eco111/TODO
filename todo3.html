@@ -81,54 +81,29 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
 	<script type="text/javascript">
 
-		$(function () {
+		function saveState() {
 
-			$('#new-todo').keypress(function (e) {
-				if (e.keyCode == 13) {
-					$('#btn-enter').click();
-				}
+			var notReady = [];
+			var ready = [];
+
+			$('#list-not-ready li.task span').each(function (i, el) {
+				var val = escape($(el).text());
+				notReady.push(val);
 			});
 
-			$('#btn-enter').click(function () {
-				var val = $('#new-todo').val();
-				if (val) {
-					addTask(val);
-					$('#new-todo').val('');
-				}
-				return false;
+			$('#list-ready li.task span').each(function (i, el) {
+				var val = escape($(el).text());
+				ready.push(val);
 			});
 
-			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
+			var result = notReady.join('&') + '|' + ready.join('&');
 
-
-
-			$('#btn-remove-all').click(function () {
-				$('#list-ready').empty();
-				$('#list-not-ready').empty();
-				saveState();
-				return false;
-			});
-
-			$('#btn-remove-completed').click(function () {
-				$('#list-ready').empty();
-				saveState();
-				return false;
-			});
-
-			loadState();
-		});
-
+			var time = new Date();
+			time.setTime(time.getTime() + 2678400000);
+			document.cookie = 'data=' + result + "; expires=" + time.toGMTString();
+		}
 
 		function loadState() {
-
-			var parts = getCookie('data').split('|');
-
-			addList(parts[0], false);
-
-			if (parts.length > 1) {
-				addList(parts[1], true);
-			}
-
 
 			var addList = function (strList, isComplete) {
 
@@ -159,6 +134,20 @@
 
 				return document.cookie.substring(cSIndex + (name + "=").length, cEIndex);
 			}
+
+			var parts = getCookie('data').split('|');
+
+			addList(parts[0], false);
+
+			if (parts.length > 1) {
+				addList(parts[1], true);
+			}
+		}
+
+		function moveTask(li, isComplete) {
+			var containner = isComplete ? '#list-ready' : '#list-not-ready';
+			li.appendTo(containner);
+			saveState();
 		}
 
 		function addTask(val, isComplete) {
@@ -178,38 +167,60 @@
 				return false;
 			});
 
-		function moveTask(li, isComplete);
+			moveTask(li, isComplete);
 		}
 
-				function moveTask(li, isComplete) {
-			var containner = isComplete ? '#list-ready' : '#list-not-ready';
-			li.appendTo(containner);
-			saveState();
-		}
+		// function changeTaskName()
 
+		$(function () {
 
-		function saveState() {
-
-			var notReady = [];
-			var ready = [];
-
-			$('#list-not-ready li.task span').each(function (i, el) {
-				var val = escape($(el).text());
-				notReady.push(val);
+			$('#btn-enter').click(function () {
+				var val = $('#new-todo').val();
+				if (val) {
+					addTask(val);
+					$('#new-todo').val('');
+				}
+				return false;
 			});
 
-			$('#list-ready li.task span').each(function (i, el) {
-				var val = escape($(el).text());
-				ready.push(val);
+			$('#new-todo').keypress(function (e) {
+				if (e.keyCode == 13) {
+					$('#btn-enter').click();
+				}
 			});
 
-			var result = notReady.join('&') + '|' + ready.join('&');
+			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
 
-			var time = new Date();
-			time.setTime(time.getTime() + 2678400000);
-			document.cookie = 'data=' + result + "; expires=" + time.toGMTString();
-		}
 
+
+			$('#btn-remove-all').click(function () {
+				$('#list-ready').empty();
+				$('#list-not-ready').empty();
+				saveState();
+				return false;
+			});
+
+			$('#btn-remove-completed').click(function () {
+				$('#list-ready').empty();
+				saveState();
+				return false;
+			});
+
+			$('.task').click(function () {
+
+				var changeName = $('<input id="change-todo" placeholder="" />')
+				this.append(changeName);
+
+				$('#change-todo').keypress(function (e) {
+				    if (e.keyCode == 13) {
+					    var val = $('#change-todo').val();
+				        if (val) $('task span').text(val);
+				    }
+			    });
+			});
+
+			loadState();
+		});
 	</script>
 	<script type="text/javascript">
 
