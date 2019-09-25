@@ -23,6 +23,12 @@ button[type="submit_button"] {
   color: green;
 }
 
+button[type = button]
+{
+  position:relative;
+  right:initial;
+}
+
 .navbar-brand {
   font-size: 2rem;
 }

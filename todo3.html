@@ -81,29 +81,54 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
 	<script type="text/javascript">
 
-		function saveState() {
+		$(function () {
 
-			var notReady = [];
-			var ready = [];
-
-			$('#list-not-ready li.task span').each(function (i, el) {
-				var val = escape($(el).text());
-				notReady.push(val);
+			$('#new-todo').keypress(function (e) {
+				if (e.keyCode == 13) {
+					$('#btn-enter').click();
+				}
 			});
 
-			$('#list-ready li.task span').each(function (i, el) {
-				var val = escape($(el).text());
-				ready.push(val);
+			$('#btn-enter').click(function () {
+				var val = $('#new-todo').val();
+				if (val) {
+					addTask(val);
+					$('#new-todo').val('');
+				}
+				return false;
 			});
 
-			var result = notReady.join('&') + '|' + ready.join('&');
+			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
 
-			var time = new Date();
-			time.setTime(time.getTime() + 2678400000);
-			document.cookie = 'data=' + result + "; expires=" + time.toGMTString();
-		}
+
+
+			$('#btn-remove-all').click(function () {
+				$('#list-ready').empty();
+				$('#list-not-ready').empty();
+				saveState();
+				return false;
+			});
+
+			$('#btn-remove-completed').click(function () {
+				$('#list-ready').empty();
+				saveState();
+				return false;
+			});
+
+			loadState();
+		});
+
 
 		function loadState() {
+
+			var parts = getCookie('data').split('|');
+
+			addList(parts[0], false);
+
+			if (parts.length > 1) {
+				addList(parts[1], true);
+			}
+
 
 			var addList = function (strList, isComplete) {
 
@@ -134,20 +159,6 @@
 
 				return document.cookie.substring(cSIndex + (name + "=").length, cEIndex);
 			}
-
-			var parts = getCookie('data').split('|');
-
-			addList(parts[0], false);
-
-			if (parts.length > 1) {
-				addList(parts[1], true);
-			}
-		}
-
-		function moveTask(li, isComplete) {
-			var containner = isComplete ? '#list-ready' : '#list-not-ready';
-			li.appendTo(containner);
-			saveState();
 		}
 
 		function addTask(val, isComplete) {
@@ -167,45 +178,38 @@
 				return false;
 			});
 
-			moveTask(li, isComplete);
+		function moveTask(li, isComplete);
 		}
 
-		$(function () {
+				function moveTask(li, isComplete) {
+			var containner = isComplete ? '#list-ready' : '#list-not-ready';
+			li.appendTo(containner);
+			saveState();
+		}
 
-			$('#btn-enter').click(function () {
-				var val = $('#new-todo').val();
-				if (val) {
-					addTask(val);
-					$('#new-todo').val('');
-				}
-				return false;
+
+		function saveState() {
+
+			var notReady = [];
+			var ready = [];
+
+			$('#list-not-ready li.task span').each(function (i, el) {
+				var val = escape($(el).text());
+				notReady.push(val);
 			});
 
-			$('#new-todo').keypress(function (e) {
-				if (e.keyCode == 13) {
-					$('#btn-enter').click();
-				}
+			$('#list-ready li.task span').each(function (i, el) {
+				var val = escape($(el).text());
+				ready.push(val);
 			});
 
-			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
+			var result = notReady.join('&') + '|' + ready.join('&');
 
+			var time = new Date();
+			time.setTime(time.getTime() + 2678400000);
+			document.cookie = 'data=' + result + "; expires=" + time.toGMTString();
+		}
 
-
-			$('#btn-remove-all').click(function () {
-				$('#list-ready').empty();
-				$('#list-not-ready').empty();
-				saveState();
-				return false;
-			});
-
-			$('#btn-remove-completed').click(function () {
-				$('#list-ready').empty();
-				saveState();
-				return false;
-			});
-
-			loadState();
-		});
 	</script>
 	<script type="text/javascript">
 
