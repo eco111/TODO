@@ -53,6 +53,12 @@
 		{
 			color: Gray;
 		}
+
+		a.btn-check-list
+		{
+			color:Grey;
+			display: inline-block;
+		}
 		
 		li.task
 		{
@@ -78,8 +84,9 @@
 		}
 	</style>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+	<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script> -->
 	<script type="text/javascript">
+
 
 		function saveState() {
 
@@ -99,7 +106,7 @@
 			var result = notReady.join('&') + '|' + ready.join('&');
 
 			var time = new Date();
-			time.setTime(time.getTime() + 2678400000);
+			time.setTime(time.getTime());
 			document.cookie = 'data=' + result + "; expires=" + time.toGMTString();
 		}
 
@@ -152,7 +159,7 @@
 
 		function addTask(val, isComplete) {
 
-			var span = $('<span />').text(val);
+			var span = $('<span contenteditable="true" />').text(val);
 			var cb = $('<input type="checkbox" />');
 			var del = $('<a class="del" href="#" />').text('×');
 			var li = $('<li class="task" />').append(del).append(cb).append(span);
@@ -169,8 +176,6 @@
 
 			moveTask(li, isComplete);
 		}
-
-		// function changeTaskName()
 
 		$(function () {
 
@@ -189,9 +194,7 @@
 				}
 			});
 
-			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
-
-
+			// $('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
 
 			$('#btn-remove-all').click(function () {
 				$('#list-ready').empty();
@@ -206,21 +209,24 @@
 				return false;
 			});
 
-			$('.task').click(function () {
+			$('#check-list-not-ready').click(function (isComplete) {
 
-				var changeName = $('<input id="change-todo" placeholder="" />')
-				this.append(changeName);
+				console.log("check-list-not-ready");
 
-				$('#change-todo').keypress(function (e) {
-				    if (e.keyCode == 13) {
-					    var val = $('#change-todo').val();
-				        if (val) $('task span').text(val);
-				    }
-			    });
-			});
+			}).prop('checked', isComplete);;
+
+			$('#check-list-ready').click(function (isComplete) {
+				
+				// var containner = isComplete 
+				console.log("check-list-ready");
+
+			}).prop('checked', isComplete);;
 
 			loadState();
-		});
+		})
+		
+		
+		
 	</script>
 	<script type="text/javascript">
 
@@ -243,6 +249,14 @@
 			<input id="new-todo" placeholder="Что нужно делать?" />
 			<a id="btn-enter" class="btn-common" href="#">Enter</a>
 		</div>
+		<div>
+			<input id="check-list-not-ready" type="checkbox" />
+			<a class="btn-check-list" href="#">Отобразить только незавершенные</a>
+		</div>	
+		<div>
+		    <input id="check-list-ready" type="checkbox" />
+			<a class="btn-check-list" href="#">Отобразить только завершенные</a>
+		</div>	
 		<div>
 			<ol id="list-not-ready">
 			</ol>
