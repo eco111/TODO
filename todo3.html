@@ -1,90 +1,78 @@
 <html>
+
 <head>
 	<title>todo</title>
 	<style type="text/css">
-		body
-		{
+		body {
 			font-size: 18pt;
 			font-family: Tahoma, Verdana, Arial;
 		}
-		
-		#main
-		{
+
+		#main {
 			margin: 12px;
 		}
-		
-		#new-todo
-		{
+
+		#new-todo {
 			height: 32px;
 			line-height: 28px;
 			font-family: Tahoma, Verdana, Arial;
 			width: 240px;
 		}
-		
-		a
-		{
+
+		a {
 			text-decoration: none !important;
 		}
-		
-		a.del
-		{
+
+		a.del {
 			display: inline-block;
 			width: 42px;
 			text-align: center;
 			margin-left: -120px;
 			color: #ccc;
 		}
-		
-		a.del:hover
-		{
+
+		a.del:hover {
 			display: inline-block;
 			color: White;
 			background-color: Red;
 		}
-		
-		a.btn-common
-		{
+
+		a.btn-common {
 			color: #c0c0c0;
 			margin-bottom: 12px;
 			display: inline-block;
 		}
-		
-		a.btn-common:hover
-		{
+
+		a.btn-common:hover {
 			color: Gray;
 		}
 
-		a.btn-check-list
-		{
-			color:Grey;
+		a.btn-check-list {
+			color: Grey;
 			display: inline-block;
 		}
-		
-		li.task
-		{
+
+		li.task {
 			cursor: default;
 			margin-left: 80px;
 		}
-		
-		li.task span
-		{
+
+		li.task span {
 			margin-left: 64px;
 		}
-		
-		#list-ready li.task
-		{
+
+		#list-ready li.task {
 			list-style-type: none;
 			opacity: 0.5;
 			color: Gray;
 		}
-		
-		#list-ready li.task span
-		{
+
+		#list-ready li.task span {
 			text-decoration: line-through;
 		}
 	</style>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
-	<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script> -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
 	<script type="text/javascript">
 
 
@@ -106,8 +94,9 @@
 			var result = notReady.join('&') + '|' + ready.join('&');
 
 			var time = new Date();
-			time.setTime(time.getTime());
-			document.cookie = 'data=' + result + "; expires=" + time.toGMTString();
+			time.setTime(time.getTime() + 2678400000);
+			document.cookie = "data=" + result + "; expires=" + time.toGMTString();
+			console.log( document.cookie = 'data=' + result + "; expires=" + time.toGMTString())
 		}
 
 		function loadState() {
@@ -144,25 +133,32 @@
 
 			var parts = getCookie('data').split('|');
 
-			addList(parts[0], false);
+			console.log("Загрузка сосотояния " + $('#list-not-ready').attr('display'));
 
-			if (parts.length > 1) {
-				addList(parts[1], true);
+			if ($('#list-not-ready').attr('display') == "inline") {
+				addList(parts[0], false);
+			}
+
+			if ($('#list-ready').attr('display') == "inline") {
+				if (parts.length > 1) {
+					addList(parts[1], true);
+				}
 			}
 		}
 
 		function moveTask(li, isComplete) {
-			var containner = isComplete ? '#list-ready' : '#list-not-ready';
+			let containner = isComplete ? '#list-ready' : '#list-not-ready';
+
 			li.appendTo(containner);
 			saveState();
 		}
 
 		function addTask(val, isComplete) {
 
-			var span = $('<span contenteditable="true" />').text(val);
-			var cb = $('<input type="checkbox" />');
-			var del = $('<a class="del" href="#" />').text('×');
-			var li = $('<li class="task" />').append(del).append(cb).append(span);
+			let span = $('<span contenteditable="true" />').text(val);
+			let cb = $('<input type="checkbox" />');
+			let del = $('<a class="del" href="#" />').text('×');
+			let li = $('<li class="task" />').append(del).append(cb).append(span);
 
 			cb.click(function () {
 				moveTask(li, cb.prop('checked'));
@@ -180,7 +176,7 @@
 		$(function () {
 
 			$('#btn-enter').click(function () {
-				var val = $('#new-todo').val();
+				let val = $('#new-todo').val();
 				if (val) {
 					addTask(val);
 					$('#new-todo').val('');
@@ -209,24 +205,44 @@
 				return false;
 			});
 
-			$('#check-list-not-ready').click(function (isComplete) {
+
+
+			function IsDisplayed(IsChecked) {
+				let IsDisplayed = IsChecked ? "inline" : "none";
+				return IsDisplayed;
+			}
+
+			$('#check-list-not-ready').click(function () {
+
+				console.log($('#list-not-ready').attr('display'));
+
+				let IsChecked = $('#check-list-not-ready').prop('checked');
+				$('#list-ready').attr('display', IsDisplayed(!IsChecked));
 
 				console.log("check-list-not-ready");
+				console.log(IsChecked);
 
-			}).prop('checked', isComplete);;
+				loadState();
+			});
 
-			$('#check-list-ready').click(function (isComplete) {
-				
-				// var containner = isComplete 
+			$('#check-list-ready').click(function () {
+
+				console.log($('#list-ready').attr('display'));
+
+				let IsChecked = $('#check-list-ready').prop('checked');
+				$('#list-not-ready').attr('display', IsDisplayed(!IsChecked));
+
 				console.log("check-list-ready");
+				console.log(IsChecked);
 
-			}).prop('checked', isComplete);;
+				loadState();
+			});
 
 			loadState();
 		})
-		
-		
-		
+
+
+
 	</script>
 	<script type="text/javascript">
 
@@ -242,6 +258,7 @@
 
 	</script>
 </head>
+
 <body>
 	<div id="main">
 		<a id="btn-remove-all" class="btn-common" href="#">Начать новый список</a>
@@ -250,22 +267,23 @@
 			<a id="btn-enter" class="btn-common" href="#">Enter</a>
 		</div>
 		<div>
-			<input id="check-list-not-ready" type="checkbox" />
-			<a class="btn-check-list" href="#">Отобразить только незавершенные</a>
-		</div>	
+			<input id="check-list-not-ready" type="checkbox" href="#" />
+			<a class="btn-check-list">Отобразить только незавершенные</a>
+		</div>
 		<div>
-		    <input id="check-list-ready" type="checkbox" />
-			<a class="btn-check-list" href="#">Отобразить только завершенные</a>
-		</div>	
+			<input id="check-list-ready" type="checkbox" href="#" />
+			<a class="btn-check-list">Отобразить только завершенные</a>
+		</div>
 		<div>
-			<ol id="list-not-ready">
+			<ol id="list-not-ready" display="inline">
 			</ol>
 		</div>
 		<div>
-			<ul id="list-ready">
+			<ul id="list-ready" display="inline">
 			</ul>
 		</div>
 		<a id="btn-remove-completed" class="btn-common" href="#">Удалить выполненные</a>
 	</div>
 </body>
+
 </html>
