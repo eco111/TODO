@@ -2,6 +2,7 @@
 
 <head>
 	<title>todo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<style type="text/css">
 		body {
 			font-size: 18pt;
@@ -52,6 +53,12 @@
 			display: inline-block;
 		}
 
+		.counter {
+			color:green;
+			display:inline-block;
+			margin-right:200px;
+		}
+
 		li.task {
 			cursor: default;
 			margin-left: 80px;
@@ -95,8 +102,8 @@
 
 			var time = new Date();
 			time.setTime(time.getTime() + 2678400000);
-			document.cookie = "data=" + result + "; expires=" + time.toGMTString();
-			console.log( document.cookie = 'data=' + result + "; expires=" + time.toGMTString())
+			document.cookie = "data=" + result + "; path=/ " + "; expires=" + time.toGMTString();
+			console.log( document.cookie = "data=" + result + "; path=/ " + "; expires=" + time.toGMTString())
 		}
 
 		function loadState() {
@@ -150,8 +157,33 @@
 			let containner = isComplete ? '#list-ready' : '#list-not-ready';
 
 			li.appendTo(containner);
+
+			changeCounter(li, 1)
+
 			saveState();
 		}
+
+        function getTaskList(li) {
+
+			console.log(li.parent('.list'));
+			return li.parent('.list');
+		}
+
+		function changeCounter(li, changeValue) {
+			let list = getTaskList(li);
+
+            let counter;
+            if(list.attr(id) == '#list-ready') counter = $('#"check-list-ready" #counter-value');
+			if(list.attr(id) == '#list-not-ready') counter = $('#"check-list-not-ready" #counter-value');
+ 
+
+			let value = counter.text();
+
+			if(value + changeValue > 0) counter.text(value + changeValue);
+			else counter.text('0');
+
+		}
+
 
 		function addTask(val, isComplete) {
 
@@ -162,15 +194,22 @@
 
 			cb.click(function () {
 				moveTask(li, cb.prop('checked'));
+				
+				changeCounter(li, -1);
+			
 			}).prop('checked', isComplete);
 
 			del.click(function () {
+				
+				if((getTaskList(li)).attr(id) != '#list-ready') changeCounter(li, -1);
+				
 				li.remove();
 				saveState();
 				return false;
 			});
 
 			moveTask(li, isComplete);
+
 		}
 
 		$(function () {
@@ -269,17 +308,23 @@
 		<div>
 			<input id="check-list-not-ready" type="checkbox" href="#" />
 			<a class="btn-check-list">Отобразить только незавершенные</a>
+			<span class="counter" value="0">       Всего незавершенных 
+				<span id="counter-value">0</span>
+			</span> 
 		</div>
 		<div>
 			<input id="check-list-ready" type="checkbox" href="#" />
 			<a class="btn-check-list">Отобразить только завершенные</a>
+			<span class="counter" value="0">      Всего завершенных 
+				<span id="counter-value">0</span>
+			</span> 
 		</div>
 		<div>
-			<ol id="list-not-ready" display="inline">
+			<ol id="list-not-ready" class="list" display="inline">
 			</ol>
 		</div>
 		<div>
-			<ul id="list-ready" display="inline">
+			<ul id="list-ready" class="list" display="inline">
 			</ul>
 		</div>
 		<a id="btn-remove-completed" class="btn-common" href="#">Удалить выполненные</a>
