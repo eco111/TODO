@@ -2,7 +2,7 @@
 
 <head>
 	<title>todo</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
 	<style type="text/css">
 		body {
 			font-size: 18pt;
@@ -173,14 +173,16 @@
 			let list = getTaskList(li);
 
             let counter;
-            if(list.attr(id) == '#list-ready') counter = $('#"check-list-ready" #counter-value');
-			if(list.attr(id) == '#list-not-ready') counter = $('#"check-list-not-ready" #counter-value');
+            if(list.attr('id') == 'list-ready') counter = $("#counter-ready-value");
+			if(list.attr('id') == 'list-not-ready') counter = $("#counter-not-ready-value");
  
 
-			let value = counter.text();
+            console.log(counter);
+			let value = +escape($(counter).text());
+			console.log(value);
 
-			if(value + changeValue > 0) counter.text(value + changeValue);
-			else counter.text('0');
+			if(value + changeValue > 0) $(counter).text((value + changeValue));
+			else $(counter).text("0");
 
 		}
 
@@ -193,15 +195,16 @@
 			let li = $('<li class="task" />').append(del).append(cb).append(span);
 
 			cb.click(function () {
-				moveTask(li, cb.prop('checked'));
-				
+
 				changeCounter(li, -1);
+
+				moveTask(li, cb.prop('checked'));
 			
 			}).prop('checked', isComplete);
 
 			del.click(function () {
 				
-				if((getTaskList(li)).attr(id) != '#list-ready') changeCounter(li, -1);
+				if((getTaskList(li)).attr("id") != 'list-ready') changeCounter(li, -1);
 				
 				li.remove();
 				saveState();
@@ -217,10 +220,11 @@
 			$('#btn-enter').click(function () {
 				let val = $('#new-todo').val();
 				if (val) {
+					console.log(val);
 					addTask(val);
 					$('#new-todo').val('');
 				}
-				return false;
+				// return false;
 			});
 
 			$('#new-todo').keypress(function (e) {
@@ -229,11 +233,15 @@
 				}
 			});
 
-			// $('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
+			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
 
 			$('#btn-remove-all').click(function () {
 				$('#list-ready').empty();
 				$('#list-not-ready').empty();
+
+				$("#counter-ready-value").text("0");
+				$("#counter-not-ready-value").text("0");
+
 				saveState();
 				return false;
 			});
@@ -306,18 +314,20 @@
 			<a id="btn-enter" class="btn-common" href="#">Enter</a>
 		</div>
 		<div>
-			<input id="check-list-not-ready" type="checkbox" href="#" />
+			<input id="check-list-not-ready" type="checkbox" href="#">
 			<a class="btn-check-list">Отобразить только незавершенные</a>
 			<span class="counter" value="0">       Всего незавершенных 
-				<span id="counter-value">0</span>
+				<span id="counter-not-ready-value">0</span>
 			</span> 
+		   </input>
 		</div>
 		<div>
-			<input id="check-list-ready" type="checkbox" href="#" />
+			<input id="check-list-ready" type="checkbox" href="#">
 			<a class="btn-check-list">Отобразить только завершенные</a>
 			<span class="counter" value="0">      Всего завершенных 
-				<span id="counter-value">0</span>
+				<span id="counter-ready-value">0</span>
 			</span> 
+		    </input>
 		</div>
 		<div>
 			<ol id="list-not-ready" class="list" display="inline">
