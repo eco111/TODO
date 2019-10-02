@@ -169,9 +169,7 @@
 
 
 			if ($('#list-ready').attr('display') == 'none') {
-				if (parts.length > 1) {
-					removeList(true);
-				}
+				removeList(true);
 			}
 		
 		}
@@ -216,10 +214,13 @@
 
 			cb.click(function () {
 
+				// removeShowFilters();
+
 				changeCounter(li, -1);
 
 				moveTask(li, cb.prop('checked'));
 				changeCounter(li, 1);
+
 			
 			}).prop('checked', isComplete);
 
@@ -230,7 +231,7 @@
 				li.remove();
                
 				
-				removeShowFilters();
+				// removeShowFilters();
 				saveState();
 				return false;
 			});
