@@ -85,22 +85,22 @@
 
 		function saveState() {
 
-			var notReady = [];
-			var ready = [];
+			let notReady = [];
+			let ready = [];
 
 			$('#list-not-ready li.task span').each(function (i, el) {
-				var val = escape($(el).text());
+				let val = escape($(el).text());
 				notReady.push(val);
 			});
 
 			$('#list-ready li.task span').each(function (i, el) {
-				var val = escape($(el).text());
+				let val = escape($(el).text());
 				ready.push(val);
 			});
 
-			var result = notReady.join('&') + '|' + ready.join('&');
+			let result = notReady.join('&') + '|' + ready.join('&');
 
-			var time = new Date();
+			let time = new Date();
 			time.setTime(time.getTime() + 2678400000);
 			document.cookie = "data=" + result + "; path=/ " + "; expires=" + time.toGMTString();
 			console.log( document.cookie = "data=" + result + "; path=/ " + "; expires=" + time.toGMTString())
@@ -108,19 +108,20 @@
 
 		function loadState() {
 
-			var addList = function (strList, isComplete) {
+			let addList = function (strList, isComplete) {
 
-				var list = strList.split('&');
+				let list = strList.split('&');
 
-				for (var i = 0; i < list.length; i++) {
+				for (let i = 0; i < list.length; i++) {
 					if (list[i]) {
 						addTask(unescape(list[i]), isComplete);
 					}
 				}
 			}
 
+
 			var getCookie = function (name) {
-				var cSIndex = document.cookie.indexOf(name);
+				let cSIndex = document.cookie.indexOf(name);
 				if (cSIndex == -1) {
 					return ''
 				};
@@ -130,7 +131,7 @@
 					return ''
 				};
 
-				var cEIndex = document.cookie.indexOf(";", cSIndex + (name + "=").length);
+				let cEIndex = document.cookie.indexOf(";", cSIndex + (name + "=").length);
 				if (cEIndex == -1) {
 					cEIndex = document.cookie.length;
 				}
@@ -140,26 +141,45 @@
 
 			var parts = getCookie('data').split('|');
 
-			console.log("Загрузка сосотояния " + $('#list-not-ready').attr('display'));
+			console.log("Загрузка сосотояния " + $('#list-not-ready').attr('display') + " " + $('#list-ready').attr('display'));
 
-			if ($('#list-not-ready').attr('display') == "inline") {
-				addList(parts[0], false);
+
+            let removeList = function(isComplete) {
+
+                let container = isComplete ? '#list-ready' : '#list-not-ready';
+                let taskList = $(container).find('.task');
+
+                console.log(taskList);
+                taskList.each( (i, task) => $(task).remove());
+            }
+
+			removeList(false);
+			removeList(true);
+		
+
+			addList(parts[0], false);
+			if (parts.length > 1) {
+				addList(parts[1], true);
+		 	}
+
+
+			if ($('#list-not-ready').attr('display') == 'none') {
+				removeList(false);
 			}
 
-			if ($('#list-ready').attr('display') == "inline") {
+
+			if ($('#list-ready').attr('display') == 'none') {
 				if (parts.length > 1) {
-					addList(parts[1], true);
+					removeList(true);
 				}
 			}
+		
 		}
 
 		function moveTask(li, isComplete) {
-			let containner = isComplete ? '#list-ready' : '#list-not-ready';
+			let container = isComplete ? '#list-ready' : '#list-not-ready';
 
-			li.appendTo(containner);
-
-			changeCounter(li, 1)
-
+			li.appendTo(container);
 			saveState();
 		}
 
@@ -199,6 +219,7 @@
 				changeCounter(li, -1);
 
 				moveTask(li, cb.prop('checked'));
+				changeCounter(li, 1);
 			
 			}).prop('checked', isComplete);
 
@@ -207,13 +228,28 @@
 				if((getTaskList(li)).attr("id") != 'list-ready') changeCounter(li, -1);
 				
 				li.remove();
+               
+				
+				removeShowFilters();
 				saveState();
 				return false;
 			});
 
 			moveTask(li, isComplete);
+			return li;
 
 		}
+
+        function removeShowFilters() {
+
+            // Сбрасываем фильтры выделения
+            //$('#list-ready').attr('display, inline');
+			if ($('#check-list-ready').prop('checked') == true) $('#check-list-ready').click();
+
+			//$('#list-not-ready').attr('display, inline');
+			if ($('#check-list-not-ready').prop('checked') == true) $('#check-list-not-ready').click();
+		}
+
 
 		$(function () {
 
@@ -221,7 +257,9 @@
 				let val = $('#new-todo').val();
 				if (val) {
 					console.log(val);
-					addTask(val);
+					let li = addTask(val);
+					changeCounter(li, 1);
+
 					$('#new-todo').val('');
 				}
 				// return false;
@@ -233,21 +271,29 @@
 				}
 			});
 
-			$('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
+			// $('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
 
 			$('#btn-remove-all').click(function () {
+
+				removeShowFilters();
+				
 				$('#list-ready').empty();
 				$('#list-not-ready').empty();
 
 				$("#counter-ready-value").text("0");
 				$("#counter-not-ready-value").text("0");
 
+
 				saveState();
 				return false;
 			});
 
 			$('#btn-remove-completed').click(function () {
+				
+				removeShowFilters();
+
 				$('#list-ready').empty();
+
 				saveState();
 				return false;
 			});
@@ -255,8 +301,7 @@
 
 
 			function IsDisplayed(IsChecked) {
-				let IsDisplayed = IsChecked ? "inline" : "none";
-				return IsDisplayed;
+				return IsChecked ? 'inline' : 'none';
 			}
 
 			$('#check-list-not-ready').click(function () {
