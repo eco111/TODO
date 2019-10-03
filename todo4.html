@@ -51,13 +51,30 @@
 		a.btn-check-list {
 			color: Grey;
 			display: inline-block;
+            cursor: -moz-grab;
 		}
 
+        a.btn-check span { 
+            display: inline-block;
+            cursor: -moz-grab;
+        }
+
 		.counter {
-			color:green;
-			display:inline-block;
-			margin-right:200px;
+			color: Green;
+			display: inline-block;
+			margin-right: 200px;
+            cursor: -moz-grab;
 		}
+
+        input[type=checkbox]:checked {
+            content: "\2713";
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+            font-size: 15px;
+            color: #f3f3f3;
+            text-align: center;
+            line-height: 15px;
+        }
+
 
         ol {
             display: inline-block;
@@ -77,7 +94,8 @@
 		}
 
 		#list-ready li.task {
-			list-style-type: none;
+			list-style-type: circle;
+            font-style: oblique;
 			opacity: 0.5;
 			color: Gray;
 		}
@@ -85,6 +103,71 @@
 		#list-ready li.task span {
 			text-decoration: line-through;
 		}
+
+        /* <!-- ////////////// --> */
+        /* Pagination */
+        .pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #2AA198;
+  background-color: transparent;
+  border: 1px solid #073642;
+}
+
+.page-link:hover {
+  z-index: 2;
+  color: #2AA198;
+  text-decoration: none;
+  background-color: #073642;
+  border-color: #073642;
+}
+
+.page-link:focus {
+  z-index: 2;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(7, 54, 66, 0.25);
+          box-shadow: 0 0 0 0.2rem rgba(7, 54, 66, 0.25);
+}
+
+.page-item:first-child .page-link {
+  margin-left: 0;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.page-item:last-child .page-link {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.75);
+  background-color: #073642;
+  border-color: #073642;
+}
+
+.page-item.disabled .page-link {
+  color: #073642;
+  pointer-events: none;
+  cursor: auto;
+  background-color: transparent;
+  border-color: #073642;
+}
+
+
 	</style>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
@@ -175,11 +258,6 @@
 			saveState();
 		}
 
-        // function getTaskList(li) {
-
-		// 	console.log(li.parent('.list'));
-		// 	return li.parent('.list');
-		// }
 
 		function changeCounter(li, changeValue) {
 			
@@ -204,7 +282,7 @@
 		function addTask(val, isComplete) {
 
 			let span = $('<span contenteditable="true" />').text(val);
-			let cb = $('<input type="checkbox" />');
+			let cb = $('<input type="checkbox" class="sbtn-check" />');
 			let del = $('<a class="del" href="#" />').text('×');
 			let li = $('<li class="task" />').append(del).append(cb).append(span);
 
@@ -233,6 +311,31 @@
 			return li;
 
 		}
+
+        function addPagPage() {
+
+            let pagContainer = $('.pagination'); 
+
+            let pageNumber = pagContainer.find('li').length+ 1;
+
+            console.log(pagContainer.find('li'));
+            console.log(pagContainer);
+
+
+            let page = $('<a class="page-link" href="#"></a>');
+            page.text(pageNumber);
+            let li_pag = $('<li class="page-item active" />').append(page);
+
+            
+            page.appendTo(pagContainer);
+        }
+
+        function removePagPage() {
+            let pagContainer = $('.pagination');
+            let lastPage = pagContainer.last();
+            
+            lastPage.remove();
+        }
 
 
 		$(function () {
@@ -313,6 +416,7 @@
 			});
 
 			loadState();
+            addPagPage();
 		})
 
 
@@ -341,7 +445,9 @@
 			<a id="btn-enter" class="btn-common" href="#">Enter</a>
 		</div>
 		<div>
-			<input id="check-list-not-ready" type="checkbox" href="#">
+            <input id="check-list-not-ready" type="checkbox" href="#">
+            <!-- <input id="check-list-not-ready" class="check-list-not-ready__input"  type="checkbox" href="#">
+            <label for="check-list-not-ready" class="check-list-not-ready__label">*</label> -->
 			<a class="btn-check-list">Отобразить только незавершенные</a>
 			<span class="counter" value="0">       Всего незавершенных 
 				<span id="counter-not-ready-value">0</span>
@@ -365,7 +471,36 @@
 			</ul>
 		</div>
 		<a id="btn-remove-completed" class="btn-common" href="#">Удалить выполненные</a>
-	</div>
+    </div>
+    <div>
+        <span id="screen-elements-count">Количество элементов на экране</span>
+        <span id="screen-elements-count-text">10</span>
+    </div>  
+    <div> 
+        <ul class="pagination pagination-sm">
+          <!-- <li class="page-item disabled">
+            <a class="page-link" href="#">&laquo;</a>
+          </li> -->
+          <li class="page-item active">
+            <a class="page-link" href="#">1</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">4</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">5</a>
+          </li>
+          <!-- <li class="page-item">
+            <a class="page-link" href="#">&raquo;</a>
+          </li> -->
+        </ul>
+      </div>
 </body>
 
 </html>
