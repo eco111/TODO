@@ -28,3 +28,14 @@ https://github.com/ryanmcdermott/clean-code-javascript#objects-and-data-structur
 
 JQuery учебник
 https://anton.shevchuk.name/jquery-book/
+
+
+Bootstrap
+https://vaden-pro.ru/blog/twitter-bootstrap/nastroyka-ustanovka-bootstrap
+Сайт шаблонов
+https://bootswatch.com
+https://bootswatch.com/solar/
+
+
+Apache
+https://tproger.ru/articles/set-up-and-configure-an-apache-server/

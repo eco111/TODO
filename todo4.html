@@ -148,6 +148,7 @@
 }
 
 .page-item:last-child .page-link {
+  margin-right: 0;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
 }
@@ -171,7 +172,7 @@
 	</style>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" async>
 
 
 		function saveState() {
@@ -202,6 +203,7 @@
 			let addList = function (strList, isComplete) {
 
 				let list = strList.split('&');
+				console.log(list);
 
 				for (let i = 0; i < list.length; i++) {
 					if (list[i]) {
@@ -244,9 +246,15 @@
                 taskList.each( (i, task) => $(task).remove());
             }
 
-			addList(parts[0], false);
+			if (parts[0] != "") {
+				addList(parts[0], false);
+			    $("#counter-not-ready-value").text((parts[0].split('&')).length);
+			}
 			if (parts.length > 1) {
-				addList(parts[1], true);
+				if (parts[1] != "") {
+					addList(parts[1], true);
+				    $("#counter-ready-value").text((parts[1].split('&')).length);
+				}		
 		 	}
 		
 		}
@@ -284,7 +292,7 @@
 			let span = $('<span contenteditable="true" />').text(val);
 			let cb = $('<input type="checkbox" class="sbtn-check" />');
 			let del = $('<a class="del" href="#" />').text('×');
-			let li = $('<li class="task" />').append(del).append(cb).append(span);
+			let li = $('<li class="task" data-showed="true"/>').append(del).append(cb).append(span);  //
 
 			cb.click(function () {
 
@@ -293,7 +301,9 @@
 				moveTask(li, cb.prop('checked'));
 				changeCounter(li, 1);
 
-			
+
+				checkPagPageCount();
+
 			}).prop('checked', isComplete);
 
 			del.click(function () {
@@ -303,7 +313,9 @@
 				
 				li.remove();
                
+
 				saveState();
+				checkPagPageCount();
 				return false;
 			});
 
@@ -312,7 +324,7 @@
 
 		}
 
-        function addPagPage() {
+        function addPagPage(isActive) {
 
             let pagContainer = $('.pagination'); 
 
@@ -324,18 +336,55 @@
 
             let page = $('<a class="page-link" href="#"></a>');
             page.text(pageNumber);
-            let li_pag = $('<li class="page-item active" />').append(page);
+            let li_pag =  isActive ? $('<li class="page-item active" />').append(page) : $('<li class="page-item" />').append(page);
 
-            
-            page.appendTo(pagContainer);
+
+            li_pag.appendTo(pagContainer);
+
+			li_pag.click(function() {
+
+				console.log($('.page-item, active'));
+				$('.page-item, active').removeClass('page-item active').addClass('page-item');
+				li_pag.removeClass('page-item').addClass('page-item active');
+
+				// Функция обновления списка для отображения нужных элементов
+
+			});
+
         }
+
+		function changePagPageCount(numberOfAdditionalPages) {
+			for (let i=0; i < Math.abs(numberOfAdditionalPages); i++) {
+				if (numberOfAdditionalPages >= 0) addPagPage(false);
+				if (numberOfAdditionalPages < 0) removePagPage();
+			}
+		}
+
 
         function removePagPage() {
             let pagContainer = $('.pagination');
-            let lastPage = pagContainer.last();
-            
-            lastPage.remove();
+
+			console.log(pagContainer);
+            if (pagContainer.find('li').length > 1 ) pagContainer.find('li').last().remove();
         }
+
+		function checkPagPageCount() {
+			let elementsOnPageCount = +$('#screen-elements-count-value').text();
+
+            console.log($('.pagination'));
+
+			let pagPageCount =  $('.pagination').find('li').length;
+			let showedTasksCount = +$('ol > .task').length + $('ul > .task').length;
+
+
+			console.log(elementsOnPageCount, pagPageCount, showedTasksCount);
+
+			let numberOfAdditionalPages = Math.ceil(showedTasksCount/elementsOnPageCount) - pagPageCount;
+			console.log(numberOfAdditionalPages);
+
+			changePagPageCount(numberOfAdditionalPages);
+		}
+
 
 
 		$(function () {
@@ -349,7 +398,9 @@
 
 					$('#new-todo').val('');
 				}
-				// return false;
+
+				checkPagPageCount();
+				return false;
 			});
 
 			$('#new-todo').keypress(function (e) {
@@ -378,6 +429,7 @@
                 $("#counter-ready-value").text("0");
 
 				saveState();
+				checkPagPageCount();
 				return false;
 			});
 
@@ -394,8 +446,9 @@
 				let IsChecked = $('#check-list-not-ready').prop('checked');
 
                 $("#list-ready").css('display', IsDisplayed(!IsChecked));
+				$("#list-ready").find("li").each( (i, el) => el.setAttribute('data-showed', !IsChecked));  //
 
-
+				checkPagPageCount();
 				console.log("check-list-not-ready");
 				console.log(IsChecked);
 
@@ -408,15 +461,18 @@
 				let IsChecked = $('#check-list-ready').prop('checked');
 				
                 $("#list-not-ready").css('display', IsDisplayed(!IsChecked));
+				$("#list-not-ready").find("li").each( (i, el) => el.setAttribute('data-showed', !IsChecked)); //
 
-
+				checkPagPageCount();
 				console.log("check-list-ready");
 				console.log(IsChecked);
 
 			});
 
+			addPagPage(true);
 			loadState();
-            addPagPage();
+			//checkPagPageCount();
+
 		})
 
 
@@ -473,34 +529,13 @@
 		<a id="btn-remove-completed" class="btn-common" href="#">Удалить выполненные</a>
     </div>
     <div>
-        <span id="screen-elements-count">Количество элементов на экране</span>
-        <span id="screen-elements-count-text">10</span>
+        <span class="screen-elements-count">Количество элементов на экране</span>
+        <span id="screen-elements-count-value" contenteditable="true">5</span>
     </div>  
     <div> 
         <ul class="pagination pagination-sm">
-          <!-- <li class="page-item disabled">
-            <a class="page-link" href="#">&laquo;</a>
-          </li> -->
-          <li class="page-item active">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">4</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">5</a>
-          </li>
-          <!-- <li class="page-item">
-            <a class="page-link" href="#">&raquo;</a>
-          </li> -->
         </ul>
-      </div>
+    </div>
 </body>
 
 </html>
