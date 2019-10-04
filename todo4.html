@@ -75,16 +75,21 @@
             line-height: 15px;
         }
 
+		/* li {
+            display: inline-block;
+        }  */
 
-        ol {
+
+        /* ol li {
             display: inline-block;
         } 
-
-        ul {
+s
+        ul li {
             display: inline-block;
-        }
+        } */
 
 		li.task {
+			display: inline-block;
 			cursor: default;
 			margin-left: 80px;
 		}
@@ -348,10 +353,28 @@
 				li_pag.removeClass('page-item').addClass('page-item active');
 
 				// Функция обновления списка для отображения нужных элементов
+				// 
 
 			});
 
         }
+
+        function getTasksForPagPage(pageNumber)
+		{
+			let elementsOnPageCount = +$('#screen-elements-count-value').text();
+
+            console.log($('.pagination'));
+
+            let pagPageCount =  $('.pagination').find('li').length;
+            let showedTasksCount = +$('ol > .task').length + $('ul > .task').length;
+
+
+            console.log(elementsOnPageCount, pagPageCount, showedTasksCount);
+ 
+let numberOfAdditionalPages = Math.ceil(showedTasksCount/elementsOnPageCount) - pagPageCount;
+console.log(numberOfAdditionalPages);
+		}
+
 
 		function changePagPageCount(numberOfAdditionalPages) {
 			for (let i=0; i < Math.abs(numberOfAdditionalPages); i++) {
@@ -441,12 +464,13 @@
 
 			$('#check-list-not-ready').click(function () {
 
-				console.log($('#list-not-ready').css('display'));
-
 				let IsChecked = $('#check-list-not-ready').prop('checked');
 
-                $("#list-ready").css('display', IsDisplayed(!IsChecked));
-				$("#list-ready").find("li").each( (i, el) => el.setAttribute('data-showed', !IsChecked));  //
+                // $("#list-ready").css('display', IsDisplayed(!IsChecked));
+				$("#list-ready").find("li").each( (i, el) => {
+					$(el).css('display', IsDisplayed(!IsChecked));
+					el.setAttribute('data-showed', !IsChecked)
+					});  //
 
 				checkPagPageCount();
 				console.log("check-list-not-ready");
@@ -456,12 +480,13 @@
 
 			$('#check-list-ready').click(function () {
 
-				console.log($('#list-ready').css('display'));
-
 				let IsChecked = $('#check-list-ready').prop('checked');
 				
-                $("#list-not-ready").css('display', IsDisplayed(!IsChecked));
-				$("#list-not-ready").find("li").each( (i, el) => el.setAttribute('data-showed', !IsChecked)); //
+                // $("#list-not-ready").css('display', IsDisplayed(!IsChecked));
+				$("#list-not-ready").find("li").each( (i, el) => {
+					$(el).css('display', IsDisplayed(!IsChecked));
+					el.setAttribute('data-showed', !IsChecked)
+					}); //
 
 				checkPagPageCount();
 				console.log("check-list-ready");
