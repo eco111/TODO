@@ -28,6 +28,7 @@ https://github.com/ryanmcdermott/clean-code-javascript#objects-and-data-structur
 
 JQuery учебник
 https://anton.shevchuk.name/jquery-book/
+https://basicweb.ru/jquery/jquery_selectors.php
 
 
 Bootstrap

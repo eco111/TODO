@@ -289,8 +289,18 @@ s
 			if(value + changeValue > 0) $(counter).text((value + changeValue));
 			else $(counter).text("0");
 
+			setAllCounter();
 		}
 
+        function setAllCounter() {
+			let readyCounterValue = +$("#counter-ready-value").text();
+			let notReadyCounterValue = +$("#counter-not-ready-value").text();
+			let allCounter = $("#counter-all-value");
+
+			allCounter.text((readyCounterValue + notReadyCounterValue));
+
+		}
+      
 
 		function addTask(val, isComplete) {
 
@@ -353,26 +363,35 @@ s
 				li_pag.removeClass('page-item').addClass('page-item active');
 
 				// Функция обновления списка для отображения нужных элементов
-				// 
+				getTasksForPagPage(pageNumber);
 
 			});
 
         }
 
-        function getTasksForPagPage(pageNumber)
+        function getTasksForPagPage(pageNumber)  ///
 		{
 			let elementsOnPageCount = +$('#screen-elements-count-value').text();
 
-            console.log($('.pagination'));
 
-            let pagPageCount =  $('.pagination').find('li').length;
-            let showedTasksCount = +$('ol > .task').length + $('ul > .task').length;
+            let startNumber = (pageNumber-1)*elementsOnPageCount; 
+			let endNumber = pageNumber*elementsOnPageCount - 1;
 
 
-            console.log(elementsOnPageCount, pagPageCount, showedTasksCount);
+			let showedCheckedTasks = $('.task').filter('[data-showed = true]');
+			let showedTasksCount = showedCheckedTasks.length;
+
+			showedCheckedTasks.each((i, el) => {
+				if (i >= startNumber && i <= endNumber) $(el).css('display', 'inline-block');
+				else $(el).css('display', 'none');
+			});
+
+
+            console.log(elementsOnPageCount, pageNumber, showedTasksCount);
+			console.log(showedCheckedTasks.filter('[display = inline-block]').length);
  
-let numberOfAdditionalPages = Math.ceil(showedTasksCount/elementsOnPageCount) - pagPageCount;
-console.log(numberOfAdditionalPages);
+            let numberOfAdditionalPages = Math.ceil(showedTasksCount/elementsOnPageCount) - pageNumber;
+            console.log(numberOfAdditionalPages);
 		}
 
 
@@ -397,7 +416,8 @@ console.log(numberOfAdditionalPages);
             console.log($('.pagination'));
 
 			let pagPageCount =  $('.pagination').find('li').length;
-			let showedTasksCount = +$('ol > .task').length + $('ul > .task').length;
+			// let showedTasksCount = +$('ol > .task').length + $('ul > .task').length;
+			let showedTasksCount = +$('.task').filter('[data-showed = true]').length;
 
 
 			console.log(elementsOnPageCount, pagPageCount, showedTasksCount);
@@ -406,6 +426,7 @@ console.log(numberOfAdditionalPages);
 			console.log(numberOfAdditionalPages);
 
 			changePagPageCount(numberOfAdditionalPages);
+			getTasksForPagPage(1);
 		}
 
 
@@ -443,6 +464,7 @@ console.log(numberOfAdditionalPages);
 
 
 				saveState();
+				setAllCounter();
 				return false;
 			});
 
@@ -452,6 +474,7 @@ console.log(numberOfAdditionalPages);
                 $("#counter-ready-value").text("0");
 
 				saveState();
+				setAllCounter();
 				checkPagPageCount();
 				return false;
 			});
@@ -462,40 +485,82 @@ console.log(numberOfAdditionalPages);
 				return IsChecked ? 'inline-block' : 'none';
 			}
 
-			$('#check-list-not-ready').click(function () {
 
-				let IsChecked = $('#check-list-not-ready').prop('checked');
+			$('.btn-check-list').click(function () {
 
-                // $("#list-ready").css('display', IsDisplayed(!IsChecked));
-				$("#list-ready").find("li").each( (i, el) => {
-					$(el).css('display', IsDisplayed(!IsChecked));
-					el.setAttribute('data-showed', !IsChecked)
-					});  //
+				clickedCheckBox = $(this);
+				console.log(this);
+				let IsChecked = clickedCheckBox.prop('checked');
+				console.log(clickedCheckBox.attr('id'));
+
+				if (IsChecked == false) clickedCheckBox.prop('checked', true);
+				else {
+				    let otherCheckBoxes = $('.btn-check-list').filter((i, el) => $(el).attr('id') !== clickedCheckBox.attr('id'));
+					console.log(otherCheckBoxes);
+
+				    otherCheckBoxes.each( (i, el) => { $(el).prop('checked', false);})
+
+
+    				if(clickedCheckBox.attr('id') == 'check-list-not-ready') {
+	 					$("#list-ready").find("li").each( (i, el) => {
+			    		el.setAttribute('data-showed', !IsChecked);
+				        });			
+					}
+				   if(clickedCheckBox.attr('id') == 'check-list-ready'){
+					    $("#list-not-ready").find("li").each( (i, el) => {
+				        el.setAttribute('data-showed', !IsChecked);
+				        });  			
+					}
+				    if(clickedCheckBox.attr('id') == 'check-list-all') {
+					    otherCheckBoxes.each((i, el) => { 
+					    	el.setAttribute('data-showed', true);
+				        });
+				    };
+			    }
 
 				checkPagPageCount();
-				console.log("check-list-not-ready");
+				console.log(clickedCheckBox);
 				console.log(IsChecked);
 
 			});
 
-			$('#check-list-ready').click(function () {
 
-				let IsChecked = $('#check-list-ready').prop('checked');
+			// $('#check-list-not-ready').click(function () {
+
+			// 	let IsChecked = $('#check-list-not-ready').prop('checked');
+
+            //     // $("#list-ready").css('display', IsDisplayed(!IsChecked));
+			// 	$("#list-ready").find("li").each( (i, el) => {
+			// 		$(el).css('display', IsDisplayed(!IsChecked));
+			// 		el.setAttribute('data-showed', !IsChecked)
+			// 		});  //
+
+			// 	checkPagPageCount();
+			// 	console.log("check-list-not-ready");
+			// 	console.log(IsChecked);
+
+			// });
+
+			// $('#check-list-ready').click(function () {
+
+			// 	let IsChecked = $('#check-list-ready').prop('checked');
 				
-                // $("#list-not-ready").css('display', IsDisplayed(!IsChecked));
-				$("#list-not-ready").find("li").each( (i, el) => {
-					$(el).css('display', IsDisplayed(!IsChecked));
-					el.setAttribute('data-showed', !IsChecked)
-					}); //
+            //     // $("#list-not-ready").css('display', IsDisplayed(!IsChecked));
+			// 	$("#list-not-ready").find("li").each( (i, el) => {
+			// 		$(el).css('display', IsDisplayed(!IsChecked));
+			// 		el.setAttribute('data-showed', !IsChecked)
+			// 		});  //
 
-				checkPagPageCount();
-				console.log("check-list-ready");
-				console.log(IsChecked);
+			// 	checkPagPageCount();
+			// 	console.log("check-list-ready");
+			// 	console.log(IsChecked);
 
-			});
+			// });
 
 			addPagPage(true);
 			loadState();
+			setAllCounter();
+			$('#check-list-all').click();
 			//checkPagPageCount();
 
 		})
@@ -526,18 +591,28 @@ console.log(numberOfAdditionalPages);
 			<a id="btn-enter" class="btn-common" href="#">Enter</a>
 		</div>
 		<div>
-            <input id="check-list-not-ready" type="checkbox" href="#">
-            <!-- <input id="check-list-not-ready" class="check-list-not-ready__input"  type="checkbox" href="#">
-            <label for="check-list-not-ready" class="check-list-not-ready__label">*</label> -->
-			<a class="btn-check-list">Отобразить только незавершенные</a>
+			
+			<input id="check-list-all" type="checkbox" class="btn-check-list" href="#">
+			<!-- <input id="check-list-not-ready" class="check-list-not-ready__input"  type="checkbox" href="#">
+			<label for="check-list-not-ready" class="check-list-not-ready__label">*</label> -->
+			<a >Отобразить все</a>
+			<span class="counter" value="0">       Всего  
+				<span id="counter-all-value">0</span>
+			</span> 
+			</input>
+	    </div>
+		<div>
+
+            <input id="check-list-not-ready" type="checkbox" class="btn-check-list" href="#">
+			<a >Отобразить только незавершенные</a>
 			<span class="counter" value="0">       Всего незавершенных 
 				<span id="counter-not-ready-value">0</span>
 			</span> 
 		   </input>
 		</div>
 		<div>
-			<input id="check-list-ready" type="checkbox" href="#">
-			<a class="btn-check-list">Отобразить только завершенные</a>
+			<input id="check-list-ready" type="checkbox" class="btn-check-list" href="#">
+			<a >Отобразить только завершенные</a>
 			<span class="counter" value="0">      Всего завершенных 
 				<span id="counter-ready-value">0</span>
 			</span> 
