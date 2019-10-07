@@ -316,6 +316,8 @@ s
 				moveTask(li, cb.prop('checked'));
 				changeCounter(li, 1);
 
+                
+                // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
 
 				checkPagPageCount();
 
@@ -471,6 +473,7 @@ s
 
 				saveState();
 				setAllCounter();
+				checkPagPageCount();
 				return false;
 			});
 
