@@ -267,6 +267,8 @@ s
 		function moveTask(li, isComplete) {
 			let container = isComplete ? '#list-ready' : '#list-not-ready';
 
+			// тут код!
+
 			li.appendTo(container);
 			saveState();
 		}
@@ -318,6 +320,7 @@ s
 
                 
                 // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
+				// Посмотреть на флаг
 
 				checkPagPageCount();
 
@@ -417,6 +420,7 @@ s
         }
 
 		function checkPagPageCount() {
+			// нужна проверка флага ?
 			let elementsOnPageCount = +$('#screen-elements-count-value').text();
 
             console.log($('.pagination'));
@@ -451,6 +455,8 @@ s
 					$('#new-todo').val('');
 				}
 
+                // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
+				// Посмотреть на флаг
 				checkPagPageCount();
 				return false;
 			});
