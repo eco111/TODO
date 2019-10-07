@@ -89,7 +89,7 @@ s
         } */
 
 		li.task {
-			display: inline-block;
+			display: none;
 			cursor: default;
 			margin-left: 80px;
 		}
@@ -357,17 +357,21 @@ s
             li_pag.appendTo(pagContainer);
 
 			li_pag.click(function() {
-
-				console.log($('.page-item, active'));
-				$('.page-item, active').removeClass('page-item active').addClass('page-item');
-				li_pag.removeClass('page-item').addClass('page-item active');
-
 				// Функция обновления списка для отображения нужных элементов
 				getTasksForPagPage(pageNumber);
+				setPageActive(li_pag);
 
 			});
 
         }
+
+        function setPageActive(li_pag) {
+
+			console.log($('.page-item, active'));
+		    $('.page-item, active').removeClass('page-item active').addClass('page-item');
+			li_pag.removeClass('page-item').addClass('page-item active');
+		}
+
 
         function getTasksForPagPage(pageNumber)  ///
 		{
@@ -416,7 +420,7 @@ s
             console.log($('.pagination'));
 
 			let pagPageCount =  $('.pagination').find('li').length;
-			// let showedTasksCount = +$('ol > .task').length + $('ul > .task').length;
+
 			let showedTasksCount = +$('.task').filter('[data-showed = true]').length;
 
 
@@ -427,6 +431,8 @@ s
 
 			changePagPageCount(numberOfAdditionalPages);
 			getTasksForPagPage(1);
+			let current_pag_page = $('.pagination').find('li:first');
+			setPageActive(current_pag_page);
 		}
 
 
@@ -502,18 +508,42 @@ s
 
 
     				if(clickedCheckBox.attr('id') == 'check-list-not-ready') {
+						$("#list-not-ready").find("li").each( (i, el) => {
+			    		el.setAttribute('data-showed', IsChecked);
+				        });	
 	 					$("#list-ready").find("li").each( (i, el) => {
 			    		el.setAttribute('data-showed', !IsChecked);
+						$(el).css('display', 'none');
 				        });			
 					}
 				   if(clickedCheckBox.attr('id') == 'check-list-ready'){
+					    $("#list-ready").find("li").each( (i, el) => {
+			    		el.setAttribute('data-showed', IsChecked);
+				        });	
 					    $("#list-not-ready").find("li").each( (i, el) => {
 				        el.setAttribute('data-showed', !IsChecked);
+						$(el).css('display', 'none');
 				        });  			
 					}
 				    if(clickedCheckBox.attr('id') == 'check-list-all') {
-					    otherCheckBoxes.each((i, el) => { 
-					    	el.setAttribute('data-showed', true);
+
+						otherCheckBoxes.each((i, l) => { 
+					    	$("#list-not-ready").find("li").each( (k, el) => {
+								el.setAttribute('data-showed', true);
+								console.log(el);
+							});
+							$("#list-ready").find("li").each( (k, el) => {
+								el.setAttribute('data-showed', true);
+								console.log(el);
+							});
+
+					    // otherCheckBoxes.each((i, l) => { 
+					    // 	$(l).find("li").each( (k, el) => {
+						// 		el.setAttribute('data-showed', true);
+						// 		console.log(el);
+						// 	    //$(el).css('display', 'inline-block');
+						//	});
+
 				        });
 				    };
 			    }
@@ -556,6 +586,7 @@ s
 			// 	console.log(IsChecked);
 
 			// });
+
 
 			addPagPage(true);
 			loadState();
