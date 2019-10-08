@@ -445,7 +445,8 @@ button:not(:disabled),
 			let span = $('<span contenteditable="true" />').text(val);
 			let cb = $('<input type="checkbox" class="sbtn-check" />');
 			let del = $('<a class="del" href="#" />').text('×');
-			let li = $('<li class="task" data-showed="true"/>').append(del).append(cb).append(span);  //
+			let p = $('<p/>')
+			let li = $('<li class="task" data-showed="true"/>').append(p).append(del).append(cb).append(span);  //
 
 			cb.click(function () {
 
@@ -461,7 +462,6 @@ button:not(:disabled),
 
 			del.click(function () {
 				
-				// if(li.parent('.list').attr("id") != 'list-ready') changeCounter(li, -1);
                 changeCounter(li, -1);
 				
 				li.remove();
@@ -524,13 +524,13 @@ button:not(:disabled),
 			let showedTasksCount = showedCheckedTasks.length;
 
 			showedCheckedTasks.each((i, el) => {
-				if (i >= startNumber && i <= endNumber) $(el).css('display', 'inline-block');
+				if (i >= startNumber && i <= endNumber) $(el).css('display', 'list-item');
 				else $(el).css('display', 'none');
 			});
 
 
             console.log(elementsOnPageCount, pageNumber, showedTasksCount);
-			console.log(showedCheckedTasks.filter('[display = inline-block]').length);
+			console.log(showedCheckedTasks.filter('[display = list-item]').length);
  
             let numberOfAdditionalPages = Math.ceil(showedTasksCount/elementsOnPageCount) - pageNumber;
             console.log(numberOfAdditionalPages);
@@ -592,11 +592,6 @@ button:not(:disabled),
 
 
 
-		$("#screen-elements-count-value").blur(function () {
-				checkPagPageCount(1);
-		});
-
-
 		$(function () {
 
 			$('#btn-enter').click(function () {
@@ -649,7 +644,7 @@ button:not(:disabled),
 
 
 			function IsDisplayed(IsChecked) {
-				return IsChecked ? 'inline-block' : 'none';
+				return IsChecked ? 'list-item' : 'none';
 			}
 
 
@@ -716,45 +711,10 @@ button:not(:disabled),
 			});
 
 
-			// $('#check-list-not-ready').click(function () {
-
-			// 	let IsChecked = $('#check-list-not-ready').prop('checked');
-
-            //     // $("#list-ready").css('display', IsDisplayed(!IsChecked));
-			// 	$("#list-ready").find("li").each( (i, el) => {
-			// 		$(el).css('display', IsDisplayed(!IsChecked));
-			// 		el.setAttribute('data-showed', !IsChecked)
-			// 		});  //
-
-			// 	checkPagPageCount();
-			// 	console.log("check-list-not-ready");
-			// 	console.log(IsChecked);
-
-			// });
-
-			// $('#check-list-ready').click(function () {
-
-			// 	let IsChecked = $('#check-list-ready').prop('checked');
-				
-            //     // $("#list-not-ready").css('display', IsDisplayed(!IsChecked));
-			// 	$("#list-not-ready").find("li").each( (i, el) => {
-			// 		$(el).css('display', IsDisplayed(!IsChecked));
-			// 		el.setAttribute('data-showed', !IsChecked)
-			// 		});  //
-
-			// 	checkPagPageCount();
-			// 	console.log("check-list-ready");
-			// 	console.log(IsChecked);
-
-			// });
-
-
 			addPagPage(true);
 			loadState();
 			setAllCounter();
 			$('#check-list-all').click();
-			//checkPagPageCount();
-
 		})
 
 
@@ -780,7 +740,6 @@ button:not(:disabled),
 		<a id="btn-remove-all" class="btn-secondary" href="#">Начать новый список</a>
 		<div>
 			<input class="form-control" id="new-todo" type="text" placeholder="Что нужно делать?">
-			<!-- <input id="new-todo" placeholder="Что нужно делать?" /> -->
 			<a id="btn-enter" class="btn-success" href="#">Enter</a>
 		</div>
 		<div>
@@ -823,7 +782,12 @@ button:not(:disabled),
     </div>
     <div>
         <span class="screen-elements-count">Количество элементов на экране</span>
-        <a id="screen-elements-count-value" contentEditable="true" href="#">5</a>
+		<a id="screen-elements-count-value" contenteditable="true" href="#">5</a>
+		<script> 
+			$("#screen-elements-count-value").blur(function () {
+				checkPagPageCount(1);
+	        });
+		</script>
     </div>  
     <div> 
         <ul class="pagination pagination-sm">
