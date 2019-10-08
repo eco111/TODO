@@ -4,6 +4,132 @@
 	<title>todo</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<style type="text/css">
+	
+.form-control {
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #0e1013;
+  background-color: rgb(197, 211, 211);
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0.25rem;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+button:not(:disabled),
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled) {
+  cursor: pointer;
+}
+
+.btn-secondary {
+  color: #fff;
+  background: #839496 -webkit-gradient(linear, left top, left bottom, from(#6f8488), to(#839496)) repeat-x;
+  background: #839496 linear-gradient(180deg, #6f8488, #839496) repeat-x;
+  border-color: #839496;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background: #6f8183 -webkit-gradient(linear, left top, left bottom, from(#5f7478), to(#6f8183)) repeat-x;
+  background: #6f8183 linear-gradient(180deg, #5f7478, #6f8183) repeat-x;
+  border-color: #697b7d;
+}
+
+.btn-secondary:focus, .btn-secondary.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(150, 164, 166, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(150, 164, 166, 0.5);
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+  color: #fff;
+  background-color: #839496;
+  border-color: #839496;
+  background-image: none;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+  color: #fff;
+  background-color: #697b7d;
+  background-image: none;
+  border-color: #647476;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(150, 164, 166, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(150, 164, 166, 0.5);
+}
+
+.btn-success {
+  color: #fff;
+  background: #2AA198 -webkit-gradient(linear, left top, left bottom, from(#248f89), to(#2AA198)) repeat-x;
+  background: #2AA198 linear-gradient(180deg, #248f89, #2AA198) repeat-x;
+  border-color: #2AA198;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background: #22837b -webkit-gradient(linear, left top, left bottom, from(#1d7671), to(#22837b)) repeat-x;
+  background: #22837b linear-gradient(180deg, #1d7671, #22837b) repeat-x;
+  border-color: #1f7972;
+}
+
+.btn-success:focus, .btn-success.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(74, 175, 167, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(74, 175, 167, 0.5);
+}
+
+.btn-success.disabled, .btn-success:disabled {
+  color: #fff;
+  background-color: #2AA198;
+  border-color: #2AA198;
+  background-image: none;
+}
+
+.btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
+.show > .btn-success.dropdown-toggle {
+  color: #fff;
+  background-color: #1f7972;
+  background-image: none;
+  border-color: #1d6e68;
+}
+
+.btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
+.show > .btn-success.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(74, 175, 167, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(74, 175, 167, 0.5);
+}
+
+
+
+
 		body {
 			font-size: 18pt;
 			font-family: Tahoma, Verdana, Arial;
@@ -74,19 +200,6 @@
             text-align: center;
             line-height: 15px;
         }
-
-		/* li {
-            display: inline-block;
-        }  */
-
-
-        /* ol li {
-            display: inline-block;
-        } 
-s
-        ul li {
-            display: inline-block;
-        } */
 
 		li.task {
 			display: none;
@@ -625,10 +738,11 @@ s
 
 <body>
 	<div id="main">
-		<a id="btn-remove-all" class="btn-common" href="#">Начать новый список</a>
+		<a id="btn-remove-all" class="btn-secondary" href="#">Начать новый список</a>
 		<div>
-			<input id="new-todo" placeholder="Что нужно делать?" />
-			<a id="btn-enter" class="btn-common" href="#">Enter</a>
+			<input class="form-control" id="new-todo" type="text" placeholder="Что нужно делать?">
+			<!-- <input id="new-todo" placeholder="Что нужно делать?" /> -->
+			<a id="btn-enter" class="btn-success" href="#">Enter</a>
 		</div>
 		<div>
 			
@@ -666,7 +780,7 @@ s
 			<ul id="list-ready" class="list" >
 			</ul>
 		</div>
-		<a id="btn-remove-completed" class="btn-common" href="#">Удалить выполненные</a>
+		<a id="btn-remove-completed" class="btn-secondary" href="#">Удалить выполненные</a>
     </div>
     <div>
         <span class="screen-elements-count">Количество элементов на экране</span>
