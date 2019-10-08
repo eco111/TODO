@@ -455,7 +455,7 @@ button:not(:disabled),
 				changeCounter(li, 1);
 
 
-				checkPagPageCount();
+				checkPagPageCount(getCurrentPagPageNumber());
 
 			}).prop('checked', isComplete);
 
@@ -468,7 +468,7 @@ button:not(:disabled),
                
 
 				saveState();
-				checkPagPageCount();
+				checkPagPageCount(getCurrentPagPageNumber());
 				return false;
 			});
 
@@ -507,7 +507,7 @@ button:not(:disabled),
 
 			console.log($('.page-item, active'));
 		    $('.page-item, active').removeClass('page-item active').addClass('page-item');
-			li_pag.removeClass('page-item').addClass('page-item active');
+			$(li_pag).removeClass('page-item').addClass('page-item active');
 		}
 
 
@@ -552,7 +552,8 @@ button:not(:disabled),
             if (pagContainer.find('li').length > 1 ) pagContainer.find('li').last().remove();
         }
 
-		function checkPagPageCount() {
+
+		function checkPagPageCount(pageNumber) {
 
 			let elementsOnPageCount = +$('#screen-elements-count-value').text();
 
@@ -569,12 +570,31 @@ button:not(:disabled),
 			console.log(numberOfAdditionalPages);
 
 			changePagPageCount(numberOfAdditionalPages);
-			getTasksForPagPage(1);
-			
-			let current_pag_page = $('.pagination').find('li:first');
+
+			// Перенести в функцию установки настроек сраницы
+			getTasksForPagPage(pageNumber);
+
+			let current_pag_page = ($('.pagination').find('li')).eq(pageNumber-1);
+
+            console.log(current_pag_page);
 			setPageActive(current_pag_page);
 		}
 
+		function getCurrentPagPageNumber() {
+
+            let pages = $('.pagination').find('li');
+			let current_pag_page = $('.active');
+
+			console.log(current_pag_page);
+			curr_pageNumber = $(pages).index(current_pag_page);
+			return curr_pageNumber+1;
+		}
+
+
+
+		$("#screen-elements-count-value").blur(function () {
+				checkPagPageCount(1);
+		});
 
 
 		$(function () {
@@ -589,7 +609,7 @@ button:not(:disabled),
 					$('#new-todo').val('');
 				}
 
-				checkPagPageCount();
+				checkPagPageCount(getCurrentPagPageNumber());
 				return false;
 			});
 
@@ -611,7 +631,7 @@ button:not(:disabled),
 
 				saveState();
 				setAllCounter();
-				checkPagPageCount();
+				checkPagPageCount(1);
 				return false;
 			});
 
@@ -622,7 +642,7 @@ button:not(:disabled),
 
 				saveState();
 				setAllCounter();
-				checkPagPageCount();
+				checkPagPageCount(1);
 				return false;
 			});
 
@@ -689,7 +709,7 @@ button:not(:disabled),
 				    };
 			    }
 
-				checkPagPageCount();
+				checkPagPageCount(1);
 				console.log(clickedCheckBox);
 				console.log(IsChecked);
 
@@ -803,7 +823,7 @@ button:not(:disabled),
     </div>
     <div>
         <span class="screen-elements-count">Количество элементов на экране</span>
-        <span id="screen-elements-count-value" contenteditable="true">5</span>
+        <a id="screen-elements-count-value" contentEditable="true" href="#">5</a>
     </div>  
     <div> 
         <ul class="pagination pagination-sm">
