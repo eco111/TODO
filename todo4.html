@@ -12,7 +12,7 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #0e1013;
+  color: #000000;
   background-color: rgb(197, 211, 211);
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -380,7 +380,30 @@ button:not(:disabled),
 		function moveTask(li, isComplete) {
 			let container = isComplete ? '#list-ready' : '#list-not-ready';
 
-			// тут код!
+            let checkedFilterBoxes = $('.btn-check-list');
+			console.log(checkedFilterBoxes);
+			
+			// checkedFilterBoxes.filter((i, el) => {$(el).prop('checked') === false;});
+
+
+			// for (let i=0; i<checkedFilterBoxes.length; i++)
+			// {
+			// 	let checked = $(checkedFilterBoxes[i]).prop('checked');
+			// 	if(!checked) checkedFilterBoxes.removeData(checkedFilterBoxes[i]);
+			// }
+			// console.log(checkedFilterBoxes);
+			// // тут код!
+
+            // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
+            // Смотрим флажок, запрещающий отображение соответствующего списка
+            let forbiddenCheckBoxForContainer = isComplete ? '#check-list-not-ready' : '#check-list-ready';
+			let isForbiddenChecked = $(forbiddenCheckBoxForContainer).prop('checked');
+			console.log(isForbiddenChecked);
+			if(isForbiddenChecked)
+			{
+				li.attr('data-showed', false);
+				$(li).css('display', 'none');
+			}
 
 			li.appendTo(container);
 			saveState();
@@ -431,9 +454,6 @@ button:not(:disabled),
 				moveTask(li, cb.prop('checked'));
 				changeCounter(li, 1);
 
-                
-                // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
-				// Посмотреть на флаг
 
 				checkPagPageCount();
 
@@ -491,7 +511,7 @@ button:not(:disabled),
 		}
 
 
-        function getTasksForPagPage(pageNumber)  ///
+        function getTasksForPagPage(pageNumber)  
 		{
 			let elementsOnPageCount = +$('#screen-elements-count-value').text();
 
@@ -533,7 +553,7 @@ button:not(:disabled),
         }
 
 		function checkPagPageCount() {
-			// нужна проверка флага ?
+
 			let elementsOnPageCount = +$('#screen-elements-count-value').text();
 
             console.log($('.pagination'));
@@ -550,6 +570,7 @@ button:not(:disabled),
 
 			changePagPageCount(numberOfAdditionalPages);
 			getTasksForPagPage(1);
+			
 			let current_pag_page = $('.pagination').find('li:first');
 			setPageActive(current_pag_page);
 		}
@@ -568,8 +589,6 @@ button:not(:disabled),
 					$('#new-todo').val('');
 				}
 
-                // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
-				// Посмотреть на флаг
 				checkPagPageCount();
 				return false;
 			});
@@ -623,7 +642,7 @@ button:not(:disabled),
 
 				if (IsChecked == false) clickedCheckBox.prop('checked', true);
 				else {
-				    let otherCheckBoxes = $('.btn-check-list').filter((i, el) => $(el).attr('id') !== clickedCheckBox.attr('id'));
+				    let otherCheckBoxes = $('.btn-check-list').filter((i, el) => $(el).attr('id') != clickedCheckBox.attr('id'));
 					console.log(otherCheckBoxes);
 
 				    otherCheckBoxes.each( (i, el) => { $(el).prop('checked', false);})
@@ -746,7 +765,7 @@ button:not(:disabled),
 		</div>
 		<div>
 			
-			<input id="check-list-all" type="checkbox" class="btn-check-list" href="#">
+			<input id="check-list-all" class="btn-check-list" type="checkbox" href="#">
 			<!-- <input id="check-list-not-ready" class="check-list-not-ready__input"  type="checkbox" href="#">
 			<label for="check-list-not-ready" class="check-list-not-ready__label">*</label> -->
 			<a >Отобразить все</a>
@@ -757,7 +776,7 @@ button:not(:disabled),
 	    </div>
 		<div>
 
-            <input id="check-list-not-ready" type="checkbox" class="btn-check-list" href="#">
+            <input id="check-list-not-ready" class="btn-check-list" type="checkbox" href="#">
 			<a >Отобразить только незавершенные</a>
 			<span class="counter" value="0">       Всего незавершенных 
 				<span id="counter-not-ready-value">0</span>
@@ -765,7 +784,7 @@ button:not(:disabled),
 		   </input>
 		</div>
 		<div>
-			<input id="check-list-ready" type="checkbox" class="btn-check-list" href="#">
+			<input id="check-list-ready" class="btn-check-list" type="checkbox" href="#">
 			<a >Отобразить только завершенные</a>
 			<span class="counter" value="0">      Всего завершенных 
 				<span id="counter-ready-value">0</span>
