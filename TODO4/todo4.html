@@ -1,0 +1,93 @@
+<html>
+
+<head>
+	<title>todo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="todo4_css.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+
+	   var _gaq = _gaq || [];
+	   _gaq.push(['_setAccount', 'UA-18125737-1']);
+	   _gaq.push(['_trackPageview']);
+
+	    (function () {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	     	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	    })();
+    </script>
+</head>
+
+<body>
+
+		<div class="col-lg-4">
+				<div class="bs-component">
+				  <div class="card mb-3">
+					<h3 class="card-header">Список дел</h3>
+					<div class="card-body">
+					  <h5 class="card-title text-muted">Создавайте новые дела</h5>
+					</div>
+					<div class="card-body">
+						<div>
+							<input id="check-list-all" class="btn-check-list" type="checkbox" href="#">
+								<a >Отобразить все </a>
+							</input>	
+							<input id="check-list-not-ready" class="btn-check-list" type="checkbox" href="#">
+							    <a >Отобразить только незавершенные  </a>
+						    </input>
+							<input id="check-list-ready" class="btn-check-list" type="checkbox" href="#">
+							    <a >Отобразить только завершенные  </a>	
+							</input>
+						</div>
+						<br/>	
+						<div id="main" class="card-text">
+							<a id="btn-remove-all" class="btn btn-secondary" href="#">Начать новый список</a>
+							<div>
+							    <br/>
+								<input class="form-control" id="new-todo" type="text" placeholder="Что нужно делать?">
+     							<a id="btn-enter" class="btn btn-success" href="#">Enter</a>
+							</div>		
+					    </div>
+					    <hr/>
+					    <div>
+						    <ol id="list-not-ready" class="list" >
+						    </ol>
+					   </div>
+					   <div>
+						    <ul id="list-ready" class="list" >
+						    </ul>
+					    </div>
+					    <hr/>
+					    <div  id="main" class="card-text">
+						    <a id="btn-remove-completed" class="btn btn-secondary" href="#">Удалить выполненные</a>
+					    </div>
+					    <br/>
+					    <div>
+						    <span class="screen-elements-count">Количество элементов на экране</span>
+						    <a id="screen-elements-count-value" contenteditable="true" href="#">5</a>
+					        <br/>					
+						    <ul class="pagination pagination-sm"></ul>
+						</div>
+					</div>
+					<div class="card-footer text-muted">
+						<span class="counter"> Всего задач 
+							<span id="counter-all-value">0</span>
+			     		</span> 
+						<span class="counter"> Всего незавершенных 		
+							<span id="counter-not-ready-value">0</span>
+						</span> 		
+						<span class="counter"> Всего завершенных 
+	    					<span id="counter-ready-value">0</span>   
+						</span> 
+					</div>
+				  </div>				
+				</div>
+			  </div>
+			</div>
+	
+	<script type="text/javascript" src = "todo4_js.js" async></script>
+</body>
+
+</html>
