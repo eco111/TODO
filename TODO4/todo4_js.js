@@ -90,15 +90,6 @@ function moveTask(li, isComplete) {
 
     // checkedFilterBoxes.filter((i, el) => {$(el).prop('checked') === false;});
 
-
-    // for (let i=0; i<checkedFilterBoxes.length; i++)
-    // {
-    // 	let checked = $(checkedFilterBoxes[i]).prop('checked');
-    // 	if(!checked) checkedFilterBoxes.removeData(checkedFilterBoxes[i]);
-    // }
-    // console.log(checkedFilterBoxes);
-
-
     // Отслеживание изменения флага отображения при переносе задачи из одного в другой список
     // Смотрим флажок, запрещающий отображение соответствующего списка
     let forbiddenCheckBoxForContainer = isComplete ? '#check-list-not-ready' : '#check-list-ready';
@@ -266,6 +257,9 @@ function checkPagPageCount(pageNumber) {
 
     let showedTasksCount = +$('.task').filter('[data-showed = true]').length;
 
+
+    if (showedTasksCount == 0) $('.pagination').find('li:first').css('display', 'none');
+    else $('.pagination').find('li:first').css('display', 'inline');
 
     console.log(elementsOnPageCount, pagPageCount, showedTasksCount);
 
