@@ -40,3 +40,4 @@ https://bootswatch.com/solar/
 
 Apache
 https://tproger.ru/articles/set-up-and-configure-an-apache-server/
+https://www.opennet.ru/docs/RUS/apache/

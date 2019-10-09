@@ -416,6 +416,8 @@ $(function() {
         $("#screen-elements-count-value").blur(function() {
             let value = $('#screen-elements-count-value').text();
             if (!isNaN(value)) {
+
+                if (value == 0) $('#screen-elements-count-value').text(currentValue);
                 currentValue = ($('#screen-elements-count-value').text());
                 checkPagPageCount(1);
             } else {
