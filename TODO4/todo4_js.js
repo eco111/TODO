@@ -1,15 +1,14 @@
-
 function saveState() {
 
     let notReady = [];
     let ready = [];
 
-    $('#list-not-ready li.task span').each(function (i, el) {
+    $('#list-not-ready li.task span').each(function(i, el) {
         let val = encodeURI($(el).text());
         notReady.push(val);
     });
 
-    $('#list-ready li.task span').each(function (i, el) {
+    $('#list-ready li.task span').each(function(i, el) {
         let val = encodeURI($(el).text());
         ready.push(val);
     });
@@ -24,7 +23,7 @@ function saveState() {
 
 function loadState() {
 
-    let addList = function (strList, isComplete) {
+    let addList = function(strList, isComplete) {
 
         let list = strList.split('&');
         console.log(list);
@@ -37,7 +36,7 @@ function loadState() {
     }
 
 
-    var getCookie = function (name) {
+    var getCookie = function(name) {
         let cSIndex = document.cookie.indexOf(name);
         if (cSIndex == -1) {
             return ''
@@ -61,7 +60,7 @@ function loadState() {
     console.log("Загрузка сосотояния ");
 
 
-    let removeList = function (isComplete) {
+    let removeList = function(isComplete) {
 
         let container = isComplete ? '#list-ready' : '#list-not-ready';
         let taskList = $(container).find('.task');
@@ -150,9 +149,9 @@ function addTask(val, isComplete) {
     let cb = $('<input type="checkbox" class="sbtn-check" />');
     let del = $('<a class="del" href="#" />').text('×');
     let p = $('<p/>')
-    let li = $('<li class="task" data-showed="true"/>').append(p).append(del).append(cb).append(span);  //
+    let li = $('<li class="task" data-showed="true"/>').append(p).append(del).append(cb).append(span); //
 
-    cb.click(function () {
+    cb.click(function() {
 
         changeCounter(li, -1);
 
@@ -164,7 +163,7 @@ function addTask(val, isComplete) {
 
     }).prop('checked', isComplete);
 
-    del.click(function () {
+    del.click(function() {
 
         changeCounter(li, -1);
 
@@ -198,7 +197,7 @@ function addPagPage(isActive) {
 
     li_pag.appendTo(pagContainer);
 
-    li_pag.click(function () {
+    li_pag.click(function() {
         // Функция обновления списка для отображения нужных элементов
         getTasksForPagPage(pageNumber);
         setPageActive(li_pag);
@@ -295,9 +294,9 @@ function getCurrentPagPageNumber() {
 
 
 
-$(function () {
+$(function() {
 
-    $('#btn-enter').click(function () {
+    $('#btn-enter').click(function() {
         let val = $('#new-todo').val();
         if (val) {
             console.log(val);
@@ -311,7 +310,7 @@ $(function () {
         return false;
     });
 
-    $('#new-todo').keypress(function (e) {
+    $('#new-todo').keypress(function(e) {
         if (e.keyCode == 13) {
             $('#btn-enter').click();
         }
@@ -319,7 +318,7 @@ $(function () {
 
     // $('#list-not-ready').sortable({ deactivate: saveState }); // после перетаскивания сохраняем состояние в куках
 
-    $('#btn-remove-all').click(function () {
+    $('#btn-remove-all').click(function() {
         $('#list-ready').empty();
         $('#list-not-ready').empty();
 
@@ -333,7 +332,7 @@ $(function () {
         return false;
     });
 
-    $('#btn-remove-completed').click(function () {
+    $('#btn-remove-completed').click(function() {
         $('#list-ready').empty();
 
         $("#counter-ready-value").text("0");
@@ -351,7 +350,7 @@ $(function () {
     }
 
 
-    $('.btn-check-list').click(function () {
+    $('.btn-check-list').click(function() {
 
         clickedCheckBox = $(this);
         console.log(this);
@@ -423,10 +422,10 @@ $(function () {
 
 let oldValue;
 
-$("#screen-elements-count-value").click(function () {
+$("#screen-elements-count-value").click(function() {
     oldValue = +($('#screen-elements-count-value').text());
 });
-$("#screen-elements-count-value").blur(function () {
+$("#screen-elements-count-value").blur(function() {
     let value = parseInt(($('#screen-elements-count-value').text()));
     if (Number.isNaN(value)) $('#screen-elements-count-value').text(oldValue);
 
