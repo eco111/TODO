@@ -85,7 +85,7 @@ function loadState() {
 function moveTask(li, isComplete) {
     let container = isComplete ? '#list-ready' : '#list-not-ready';
 
-    let checkedFilterBoxes = $('.btn-check-list');
+    let checkedFilterBoxes = $('.btn-check-list input');
     console.log(checkedFilterBoxes);
 
     // checkedFilterBoxes.filter((i, el) => {$(el).prop('checked') === false;});
@@ -191,8 +191,9 @@ function addPagPage(isActive) {
 
 
     let page = $('<a class="page-link" href="#"></a>');
+    let span = $('<span />');
     page.text(pageNumber);
-    let li_pag = isActive ? $('<li class="page-item active" />').append(page) : $('<li class="page-item" />').append(page);
+    let li_pag = isActive ? $('<li class="page-item active" />').append(span).append(page) : $('<li class="page-item" />').append(span).append(page);
 
 
     li_pag.appendTo(pagContainer);
@@ -350,7 +351,7 @@ $(function() {
     }
 
 
-    $('.btn-check-list').click(function() {
+    $('.btn-check-list input').click(function() {
 
         clickedCheckBox = $(this);
         console.log(this);
@@ -359,7 +360,7 @@ $(function() {
 
         if (IsChecked == false) clickedCheckBox.prop('checked', true);
         else {
-            let otherCheckBoxes = $('.btn-check-list').filter((i, el) => $(el).attr('id') != clickedCheckBox.attr('id'));
+            let otherCheckBoxes = $('.btn-check-list input').filter((i, el) => $(el).attr('id') != clickedCheckBox.attr('id'));
             console.log(otherCheckBoxes);
 
             otherCheckBoxes.each((i, el) => { $(el).prop('checked', false); })
@@ -413,21 +414,26 @@ $(function() {
     });
 
 
+    let oldValue;
+
+    $("#screen-elements-count-value").click(function() {
+        let currentValue = ($('#screen-elements-count-value').text());
+
+        $("#screen-elements-count-value").blur(function() {
+            let value = $('#screen-elements-count-value').text();
+            if (!isNaN(value)) {
+                currentValue = ($('#screen-elements-count-value').text());
+                checkPagPageCount(1);
+            } else {
+                $('#screen-elements-count-value').text(currentValue);
+            }
+
+
+        });
+    });
+
     addPagPage(true);
     loadState();
     setAllCounter();
     $('#check-list-all').click();
 })
-
-
-let oldValue;
-
-$("#screen-elements-count-value").click(function() {
-    oldValue = +($('#screen-elements-count-value').text());
-});
-$("#screen-elements-count-value").blur(function() {
-    let value = parseInt(($('#screen-elements-count-value').text()));
-    if (Number.isNaN(value)) $('#screen-elements-count-value').text(oldValue);
-
-    checkPagPageCount(1);
-});
