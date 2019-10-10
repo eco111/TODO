@@ -41,3 +41,7 @@ https://bootswatch.com/solar/
 Apache
 https://tproger.ru/articles/set-up-and-configure-an-apache-server/
 https://www.opennet.ru/docs/RUS/apache/
+https://httpd.apache.org/
+
+Шаблон
+https://www.figma.com/file/ZoXvu8kw2ZCm3qlxKn8y1n/iqualif?node-id=0%3A1
