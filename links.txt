@@ -42,6 +42,60 @@ Apache
 https://tproger.ru/articles/set-up-and-configure-an-apache-server/
 https://www.opennet.ru/docs/RUS/apache/
 https://httpd.apache.org/
+https://www.linode.com/docs/web-servers/apache-tips-and-tricks/apache-configuration-basics/
 
 Шаблон
 https://www.figma.com/file/ZoXvu8kw2ZCm3qlxKn8y1n/iqualif?node-id=0%3A1
+
+Node js
+https://ru.wikipedia.org/wiki/AJAX
+https://ru.wikipedia.org/wiki/AJAX
+http://api.jquery.com/jquery.ajax/
+https://ru.wikipedia.org/wiki/HTTP
+https://habrahabr.ru/company/wrike/blog/302896/
+http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
+http://learn.javascript.ru/promise
+https://habrahabr.ru/company/Voximplant/blog/303780/
+http://expressjs.com/ru/guide/using-middleware.html
+http://expressjs.com/ru/guide/routing.html
+https://habrahabr.ru/company/ruvds/blog/324936/
+https://www.sitepoint.com/sql-vs-nosql-differences/
+mongoDB PostgreSQL
+
+MDN Web docs
+https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding
+
+Python
+https://ru.wikipedia.org/wiki/AJAX
+http://api.jquery.com/jquery.ajax/
+https://ru.wikipedia.org/wiki/HTTP
+https://habrahabr.ru/company/wrike/blog/302896/
+http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
+http://learn.javascript.ru/promise
+https://www.sitepoint.com/sql-vs-nosql-differences/
+
+Python//
+https://www.codecademy.com/learn/python
+
+Типы данных - коллекции
+https://pythonworld.ru/tipy-dannyx-v-python
+
+Python/Django
+https://docs.djangoproject.com/en/1.10/intro/
+https://djbook.ru/rel1.9/ - на русском
+https://tproger.ru/translations/create-your-first-django-app/
+https://baxeico.wordpress.com/2014/06/25/put-and-delete-http-requests-with-django-and-jquery/
+
+Ajax:
+https://habrahabr.ru/post/14246/
+
+REST:
+https://spring.io/understanding/REST
+http://www.django-rest-framework.org/tutorial/quickstart/
+
+DB:
+https://tproger.ru/translations/sql-nosql-database-models/
+
+PostgreSQL:
+https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+//
