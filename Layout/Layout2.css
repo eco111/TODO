@@ -88,6 +88,9 @@
 
 h3 {
     margin: 0px;
+}
+
+h3 .second {
     text-align: center;
 }
 
@@ -146,7 +149,7 @@ h3 {
     color: #F6C055;
 }
 
-p {
+p .second {
     vertical-align: middle;
     text-align: center;
 }
