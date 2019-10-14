@@ -1,19 +1,9 @@
-#left {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 50%;
-}
-
-#right {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 50%;
+.row-1 {
+    position: relative;
 }
 
 #section-1 {
-    position: absolute;
+    position: relative;
     width: 1918px;
     height: 687px;
     background: #182439;
@@ -21,19 +11,28 @@
 
 .picture-1 {
     position: relative;
-    top: 25px;
-    left: 73px;
+    top: 91px;
     width: 928px;
     height: 522px;
     background: url(1.png);
 }
 
+.container {
+    margin: 0px;
+    max-width: 1920px;
+}
+
+h3 {
+    margin: 0px;
+}
+
 .header-1 {
-    position: absolute;
-    top: 91;
-    right: -19px;
+    position: relative;
+    top: 91px;
+    left: -100px;
     width: 1002px;
     height: 111px;
+    margin: 0px;
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
@@ -42,20 +41,12 @@
     color: #F7C055;
 }
 
-p {
-    margin: 15px;
-}
-
-h3 {
-    margin: 15px;
-}
-
 .text-1 {
-    position: absolute;
-    top: 254px;
-    right: 121px;
+    position: relative;
+    top: 150px;
+    left: -100px;
     width: 862px;
-    height: 268px;
+    height: 134px;
     font-family: "Roboto";
     font-style: normal;
     font-weight: bold;
@@ -65,18 +56,21 @@ h3 {
 }
 
 .h-line {
-    position: absolute;
+    position: relative;
+    left: -20px;
     width: 137px;
     height: 5px;
     background: #3BB7FD;
 }
 
 .h-line-pos-1 {
-    top: 239px;
+    left: -100px;
+    top: 120px;
 }
 
 .h-line-pos-2 {
-    top: 409px;
+    left: -240px;
+    top: 300px;
 }
 
 @font-face {

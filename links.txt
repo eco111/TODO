@@ -36,6 +36,8 @@ https://vaden-pro.ru/blog/twitter-bootstrap/nastroyka-ustanovka-bootstrap
 Сайт шаблонов
 https://bootswatch.com
 https://bootswatch.com/solar/
+Элементы и возможности
+https://getbootstrap.com/docs/3.4/customize/#download
 
 
 Apache
