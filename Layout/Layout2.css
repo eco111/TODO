@@ -18,7 +18,7 @@
 #section-3 {
     position: relative;
     width: 1920px;
-    height: 665px;
+    height: 878px;
     background: #FFFFFF;
     background-size: cover;
 }
@@ -279,6 +279,33 @@ h3 {
 .h-line-pos-2 {
     left: -220px;
     top: 300px;
+}
+
+.header-feature {
+    font-weight: bold;
+}
+
+.block-feature {
+    width: 531px;
+    height: 124px;
+    border: 2px solid #3BB7FD;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+p img {
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 @font-face {

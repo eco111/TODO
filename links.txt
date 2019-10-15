@@ -101,3 +101,17 @@ https://tproger.ru/translations/sql-nosql-database-models/
 PostgreSQL:
 https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
 //
+
+React
+
+https://facebook.github.io/react/tutorial/tutorial.html - оффициальный туториал
+https://maxfarseer.gitbooks.io/react-course-ru/content/zhiznennii_tsikl_komponenta.html - жизненный цикл компонента
+http://getinstance.info/articles/react/learning-react-router/ - быстрый старт в реакт роутере
+https://reacttraining.com/react-router/web/example/basic - документация react-router с примерами
+
+https://reactjs.org/blog/2018/03/29/react-v-16-3.html
+https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html
+
+Генератор
+https://github.com/facebook/create-react-app
+
